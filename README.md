@@ -1,6 +1,6 @@
-## H5DAQ
+## SDAQ
 
-H5DAQ is a standalone module which provides a DAQ system based on hdf5-files powered by ``h5py, numpy, logging, scheduler``.
+SDAQ is a standalone module which provides a DAQ system based on hdf5-files powered by ``h5py, numpy, logging, scheduler``.
 The package consists of two main classes [DAQDaemon](#daqdaemon) and [DAQJob](#daqjob).
 
 #### Table of Contents
@@ -12,17 +12,17 @@ The package consists of two main classes [DAQDaemon](#daqdaemon) and [DAQJob](#d
 ## Example
 
 ```python
-import h5daq
+import sdaq
 
 # def getter function, has to return a list
 def getter():
     return [1,2,3]
 
 # set up the DAQJob
-job = h5daq.DAQJob(group='job_1', label=['table_0', 'table_1', 'table_2'],getter=getter, read_period=5)
+job = sdaq.DAQJob(group='job_1', label=['table_0', 'table_1', 'table_2'],getter=getter, read_period=5)
 
 # set up the DAQDaemon
-daq_daemon = h5daq.DAQDaemon(job_list=[job])
+daq_daemon = sdaq.DAQDaemon(job_list=[job])
 
 # start the Daemon, wait, and stop it 
 daq_daemon.start()
@@ -67,10 +67,10 @@ To add a new item to each dataset, a getter function is executed. This getter fu
 This getter function returns one entry for each dataset with the correct shape ,and single entries must be interpretable with the given dtype per data-set. 
 Therefore, the length of the datasets along the first axis (axis=0) is the same for all datasets. The time when the getter is executed is saved automatically. It is also possible to provide the time from the getter as the first item.
 
-For more information see the doc-string in [DAQJob (src file)](./src/h5daq/daq_job.py).
+For more information see the doc-string in [DAQJob (src file)](./src/sdaq/daq_job.py).
 
 ### DAQDaemon
-The [DAQDaemon (src file)](./src/h5daq/daq_daemon.py), collects the buffered data from the [DAQJob(s)](#daqjob) and writes it to a hdf5 file, where each DAQJob gets its own hdf5-group (internal directory).
+The [DAQDaemon (src file)](./src/sdaq/daq_daemon.py), collects the buffered data from the [DAQJob(s)](#daqjob) and writes it to a hdf5 file, where each DAQJob gets its own hdf5-group (internal directory).
 The DAQDaemon also runs the scheduler-loop for all scheduled DAQJob(s).
 
 ---
