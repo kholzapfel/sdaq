@@ -1,0 +1,12 @@
+**/__pycache__
+*.hdf5
+.DS_Store
+build/*
+dist
+src/H5DAQ.egg-info/
+.git
+.gitlab
+/**/error.txt
+/**/*.h5
+/**/*.hdf5
+/**/.ipynb_checkpoints
