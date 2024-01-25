@@ -1,7 +1,7 @@
 import time
 from unittest import TestCase
 
-from h5daq.src.h5daq.scheduler import ThreadScheduler
+from src.sdaq.scheduler import ThreadScheduler
 
 
 class TestThreadScheduler(TestCase):

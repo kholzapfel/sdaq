@@ -24,7 +24,7 @@ from .scheduler import ThreadScheduler
 
 
 class DAQDaemon(DAQDaemonParser):
-    # A h5daq global Lock (threading) for the hdf5 access. h5py don't seem to be 100% thread prove which cause the
+    # A SDAQ global Lock (threading) for the hdf5 access. h5py don't seem to be 100% thread prove which cause the
     # access lock not to be reset, probably.
     h5py_lock = None
 
@@ -255,7 +255,7 @@ class DAQDaemon(DAQDaemonParser):
     #         write_size += write_size_i
 
     def _write_hdf5_lock(self, *args, **kwargs):
-        """This use a h5daq global lock of accessing hdf5 files as h5py isn't thread save."""
+        """This use a SDAQ global lock of accessing hdf5 files as h5py isn't thread save."""
         with self.h5py_lock:
             self._write_hdf5(*args, **kwargs)
 

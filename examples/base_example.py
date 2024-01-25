@@ -2,7 +2,7 @@
 
 # Author: Kilian Holzapfel <kilian.holzapfel@tum.de>
 
-import h5daq
+import sdaq
 import h5py
 import time
 import numpy as np
@@ -24,10 +24,10 @@ def getter_2():
 
 
 # set up Jobs
-job_list = [h5daq.DAQJob('job_1', 'table_0', getter),
-            h5daq.DAQJob('job_2', ['1d_array', 'nd_array'], getter_2, shape=[(0,), (0, 2, 2)], read_period=.2)]
+job_list = [sdaq.DAQJob('job_1', 'table_0', getter),
+            sdaq.DAQJob('job_2', ['1d_array', 'nd_array'], getter_2, shape=[(0,), (0, 2, 2)], read_period=.2)]
 # set up Daemon
-daq_daemon = h5daq.DAQDaemon(job_list)
+daq_daemon = sdaq.DAQDaemon(job_list)
 
 # start the Daemon, wait, and stop it
 daq_daemon.start(attrs={'measurement': 'test', 'run_id': 12})  # attrs are added as root attributes of the hdf5 file

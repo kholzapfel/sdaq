@@ -6,7 +6,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 __version__ = '0.0.2'
 
 setuptools.setup(
-    name='H5DAQ',  # name="example-pkg-YOUR-USERNAME-HERE", # Replace with your own username
+    name='SDAQ',  # name="example-pkg-YOUR-USERNAME-HERE", # Replace with your own username
     version=__version__,
     author='Kilian Holzapfel',
     author_email='kilian.holzapfel@tum.de',

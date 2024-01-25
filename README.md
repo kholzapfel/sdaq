@@ -50,7 +50,7 @@ pip3 install -U --user -e .
 #### AssertionError: Egg-link
 In case you see an `AssertionError: Egg-link`, run:
 ```bash
-rm ~/.local/lib/pythonX.X/site-packages/H5DAQ.egg-link
+rm ~/.local/lib/pythonX.X/site-packages/SDAQ.egg-link
 ```
 where X.X is your python version, e.g. 3.7 and run the command from **Install with pip** again.
 

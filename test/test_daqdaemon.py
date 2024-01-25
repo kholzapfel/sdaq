@@ -6,7 +6,7 @@ from unittest import TestCase
 import h5py
 import numpy as np
 
-from h5daq.src.h5daq import DAQJob, DAQDaemon
+from src.sdaq import DAQJob, DAQDaemon
 
 
 class TestDAQDaemonInit(TestCase):
