@@ -23,7 +23,7 @@ class TestDAQJobInit(TestCase):
                          'dtype': [int, int, float],
                          'shape': [(0, 2), (0, 2, 2), (0,)]}
         # create getter from shape
-        settings_dict.update({'getter': lambda: [np.random.random((1, *i[1:])) for i in settings_dict['shape']]})
+        settings_dict.update({'getter': lambda: [np.random.random(i[1:]) for i in settings_dict['shape']]})
 
         # test label + dtype + shape
         job = DAQJob('test', **settings_dict)
@@ -91,12 +91,12 @@ class TestDAQJobFunctions(TestCase):
 
         # ---- BASIC functionality no fails ----
         # test basic functionality
-        settings_dict.update({'getter': lambda: [np.random.random((1, *i[1:])) for i in settings_dict['shape']]})
+        settings_dict.update({'getter': lambda: [np.random.random(i[1:]) for i in settings_dict['shape']]})
         job = DAQJob('test', **settings_dict)
         self.assertIsNotNone(job._get_data())
 
         # test basic functionality + provide_time=True
-        settings_dict.update({'getter': lambda: [1., *[np.random.random((1, *i[1:])) for i in settings_dict['shape']]],
+        settings_dict.update({'getter': lambda: [1., *[np.random.random(i[1:]) for i in settings_dict['shape']]],
                               'provide_time': True})
         job = DAQJob('test', **settings_dict)
         self.assertIsNotNone(job._get_data())
@@ -137,7 +137,7 @@ class TestDAQJobFunctions(TestCase):
         self.assertIsNone(job._get_data())
 
         # test fail if getter doesn't return time but provide_time = True
-        settings_dict.update({'getter': lambda: [np.random.random((1, *i[1:])) for i in settings_dict['shape']],
+        settings_dict.update({'getter': lambda: [np.random.random(i[1:]) for i in settings_dict['shape']],
                               'provide_time': True})
         job = DAQJob('test', **settings_dict)
         self.assertRaises(ValueError, job._get_data)
@@ -150,7 +150,7 @@ class TestDAQJobFunctions(TestCase):
                          'compress': compress,
                          'initial_buffer_length': 10}
         # add the 100* to get values from 0->100
-        settings_dict.update({'getter': lambda: [100 * np.random.random((1, *j[1:])) for j in settings_dict['shape']]})
+        settings_dict.update({'getter': lambda: [100 * np.random.random(j[1:]) for j in settings_dict['shape']]})
         job = DAQJob('test', **settings_dict)
 
         # ---- BASIC functionality no fails ----
@@ -251,7 +251,7 @@ class TestDAQJobFunctions(TestCase):
                          'shape': [(0, 2), (0, 2, 2), (0,)],
                          'compress': True}
         # add the 100* to get values from 0->100
-        settings_dict.update({'getter': lambda: [100 * np.random.random((1, *j[1:])) for j in settings_dict['shape']]})
+        settings_dict.update({'getter': lambda: [100 * np.random.random(j[1:]) for j in settings_dict['shape']]})
         job = DAQJob('test', **settings_dict)
 
         # ---- BASIC functionality no fails ----
@@ -291,7 +291,7 @@ class TestDAQJobFunctions(TestCase):
                          'read_period': .01,
                          'compress': True}
 
-        settings_dict.update({'getter': lambda: [np.random.random((1, *s[1:])) for s in settings_dict['shape']]})
+        settings_dict.update({'getter': lambda: [np.random.random(s[1:]) for s in settings_dict['shape']]})
         job = DAQJob('test', **settings_dict)
 
         data = job._get_data()  # generate data
@@ -337,7 +337,7 @@ class TestDAQJob(TestCase):
         # ---- BASIC functionality no fails ----
         # test basic functionality
         loops = 10
-        settings_dict.update({'getter': lambda: [np.random.random((1, *i[1:])) for i in settings_dict['shape']]})
+        settings_dict.update({'getter': lambda: [np.random.random(i[1:]) for i in settings_dict['shape']]})
         job = DAQJob('test', **settings_dict)
         job.start()
         time.sleep(settings_dict['read_period'] * (loops + .5))  # loops + a half loop
@@ -353,7 +353,7 @@ class TestDAQJob(TestCase):
                          'compress': False}
 
         loops = 10
-        settings_dict.update({'getter': lambda: [np.random.random((1, *j[1:])) for j in settings_dict['shape']]})
+        settings_dict.update({'getter': lambda: [np.random.random(j[1:]) for j in settings_dict['shape']]})
         job = DAQJob('test', **settings_dict)
         for i in range(loops):
             job.trigger_read()
@@ -377,7 +377,7 @@ class TestDAQJobExtern(TestCase):
         proc.stdout.close()
         proc.stderr.close()
         self.process_exec_time = time.time() - self.process_exec_time
-        print(self.process_exec_time)
+        #print(self.process_exec_time)
 
     def test_basic_non_constant(self):
         settings_dict = {'label': ['table_1', 'table_2', 'table_3', 'table_4'],
@@ -483,7 +483,7 @@ class TestDAQJobExtern(TestCase):
                          'compress': False}
 
         loops = 10
-        settings_dict.update({'getter': lambda: [np.random.random((1, *j[1:])) for j in settings_dict['shape']]})
+        settings_dict.update({'getter': lambda: [np.random.random(j[1:]) for j in settings_dict['shape']]})
         job = DAQJob('test', **settings_dict)
         for i in range(loops):
             job.trigger_read()

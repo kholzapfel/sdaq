@@ -39,7 +39,7 @@ class TestDAQJob(TestCase):
 
         # ---- BASIC functionality no fails ----
         # test basic functionality
-        settings_dict.update({'getter': lambda: [np.random.random((1, *j[1:])) for j in settings_dict['shape']]})
+        settings_dict.update({'getter': lambda: [np.random.random(j[1:]) for j in settings_dict['shape']]})
         job = DAQJob('test_job_1', **settings_dict)
         job2 = DAQJob('test_job_2', 'table_0', getter=lambda: [np.random.random()], read_period=.02)
 

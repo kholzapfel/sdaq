@@ -191,6 +191,7 @@ class DAQJob:
         self.label = [str(i) for i in label]  # convert (and if not possible raise error) to string
         self.dtype_list = [np.float64, *dtype]
         self.shape_list = [(0,), *shape]
+
         self.initial_buffer_length = initial_buffer_length
 
         if chunk_length <= 2**4:
@@ -361,6 +362,7 @@ class DAQJob:
                 try:
                     self.buffer[i][self.buffer_position] = data_i
 
+                    #print(i, self.buffer_position, data_i, type(data_i), self.buffer[i][self.buffer_position])
                 except (RuntimeError, Exception):
                     var = traceback.format_exc().replace('\n', '/n ')
                     # self.logger.warning(f'Add data: {data} to buffer failed with: {var}')
@@ -808,7 +810,7 @@ class DAQJobExtern(DAQJob):
     def __convert_buffer__(self, buffer_lines):
         if buffer_lines:  # same as buffer_lines != []
             for i, line in enumerate(buffer_lines):  # check if there is a comment
-                if line[0] == 35:  # which is b'#' but 35 = b'#1 2 3 5\n'[0]
+                if line[0] == 35:  # which is b'#' and b'#' as integer is 35, i.e. 35 = b'#1 2 3 5\n'[0]
                     self.logger.info(f'{line}')
 
                 if line[-1] != 10:  # sometimes lines get split into 2 lines. Check if there is a '\n' = 10 at the end
@@ -838,10 +840,13 @@ class DAQJobExtern(DAQJob):
                     if w:
                         self.logger.info(f'{len(w)} warnings in getter_extend: {";".join(out_str_list)}')
 
-                # workaround for `unpack=True` not works with structured arrays in older numpy versions
+                # workaround for `unpack=True` which not works with structured arrays in older numpy versions
                 # mimic unpack behaviour: `When used with a structured data-type, arrays are returned for each field.`
                 # from https://numpy.org/doc/stable/reference/generated/numpy.genfromtxt.html
-                data = [data[dtype_i[0]].reshape((-1, *dtype_i[2][1:])) for dtype_i in self.dtype_structured]
+                if self.extend_mode:
+                    data = [data[dtype_i[0]].reshape((-1, *dtype_i[2][1:])) for dtype_i in self.dtype_structured]
+                else:
+                    data = [data[dtype_i[0]].reshape(dtype_i[2][1:]) for dtype_i in self.dtype_structured]
                 return data
 
             except (RuntimeError, Exception):
