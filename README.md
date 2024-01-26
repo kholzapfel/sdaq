@@ -31,31 +31,35 @@ daq_daemon.stop()
 ```
 For more examples have a lock in the [example folder](./examples).
 
-## Installation
+# Installation
 
-### Prepare Python package
-This step shouldn't be necessary.
-Go to the directory where [this README you are reading](README.md) is placed (more precise the [pyproject.toml](pyproject.toml), but this should be the same) and run:
+## Installation directly from the repository
+Pip can directly install the package from the repository. As pip only compares the version number and not the code, uninstall an existing installation before you install it from the repository. For updating the package just rerun the same commands. You can also specify the branch by changing master accordingly. The commands are:
 ```bash
-python3 -m build
+pip3 install -U git+https://github.com/kholzapfel/sdaq.git@main
 ```
-This will create the files located in the folder `.egg-info`.
-
-### Install with pip
-Run the following command to install the package, and replace `.` with the root directory of the package. 
+and to update it later on
 ```bash
-pip3 install -U --user -e .
+pip3 install --no-deps --ignore-installed git+https://github.com/kholzapfel/sdaq.git@main
 ```
 
-#### AssertionError: Egg-link
-In case you see an `AssertionError: Egg-link`, run:
+## Installation for developers
+This installation downloads the source code, and the package loads directly from the source code for every import. Therefore, any changes to the code will have direct effect after an import.
+
+Go to the directory of this README you are reading is placed (basically, to the directory of the pyproject.toml file, but this should be the same). Depending on your Python installation adopt python3/pip3 to python/pip, however python3 is required. Run:
 ```bash
-rm ~/.local/lib/pythonX.X/site-packages/SDAQ.egg-link
+mkdir /path/to/repros  # adopted the path, be aware that git clone creates a directory with the repository name
+cd /path/to/repros # enter the directory
+
+# clone/download the repository
+git clone https://github.com/kholzapfel/sdaq.git@main  # downloads the repository
+cd strawb_package  # enter the repository directory
+
+# install the package
+python3 -m build  # This will create the files located in the folder `.egg-info`
+pip3 install -U -r requirements.txt  # install the required python packages
+pip3 install -U --user -e .  # install the package in developer mode.
 ```
-where X.X is your python version, e.g. 3.7 and run the command from **Install with pip** again.
-
-This problem happens if you move the source code directory after the egg-link file is created.
-
 
 ## Code Structure
 
@@ -75,5 +79,9 @@ The DAQDaemon also runs the scheduler-loop for all scheduled DAQJob(s).
 
 ---
 ## TODO List:
-* [ ] include options for logger with parameters (which file, rollover, level, fmt)
-* [ ] 
+* [x] added basic example
+* [ ] include options for logger
+  * [x] which file
+  * [x] level
+  * [x] fmt
+  * [ ] rollover
