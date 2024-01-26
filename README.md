@@ -19,7 +19,12 @@ def getter():
     return [1,2,3]
 
 # set up the DAQJob
-job = sdaq.DAQJob(group='job_1', label=['table_0', 'table_1', 'table_2'],getter=getter, read_period=5)
+job = sdaq.DAQJob(
+    group='job_1',  # the jobs name and also the name of the hdf5 groop
+    label=['table_0', 'table_1', 'table_2'],  # the table names and also the name of the hdf5 datasets
+    getter=getter,
+    read_period=5,  # in seconds, executes the `getter` every n seconds
+)
 
 # set up the DAQDaemon
 daq_daemon = sdaq.DAQDaemon(job_list=[job])
