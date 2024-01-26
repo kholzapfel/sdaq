@@ -1,6 +1,5 @@
 **/__pycache__
 .idea
-*.hdf5
 .DS_Store
 build/*
 dist
@@ -8,6 +7,9 @@ src/SDAQ.egg-info
 .git
 .gitlab
 /**/error.txt
+*.hdf5
 /**/*.h5
 /**/*.hdf5
 /**/.ipynb_checkpoints
+*.log
+/**/*.log
