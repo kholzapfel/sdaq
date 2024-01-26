@@ -149,12 +149,15 @@ class DAQDaemon(DAQDaemonParser):
         self._write_period_jitter = write_period_jitter
 
     def _init_attrs_(self):
-        self.attrs = {'write_period': self.write_period, 'write_period_jitter': self.write_period_jitter,
-                      'name': self.name,
-                      'rollover_interval': str(self.rollover_interval_dict),
-                      'run_start': np.nan, 'run_end': np.nan,
-                      'file_start': np.nan, 'file_end': np.nan,
-                      'previous_file_id': np.nan, 'file_id': np.nan, 'following_file_id': np.nan}
+        self.attrs = {
+            'write_period': self.write_period,
+            'write_period_jitter': self.write_period_jitter if self.write_period_jitter is not None else np.nan,
+            'name': self.name,
+            'rollover_interval': str(self.rollover_interval_dict),
+            'run_start': np.nan, 'run_end': np.nan,
+            'file_start': np.nan, 'file_end': np.nan,
+            'previous_file_id': np.nan, 'file_id': np.nan, 'following_file_id': np.nan
+        }
         if self.attrs_default is not None:
             self.attrs.update(self.attrs_default)
 
@@ -334,7 +337,7 @@ class DAQDaemon(DAQDaemonParser):
 
             # when the daemon started (new_file) or writes the last time (flush_attrs) to the file.
             elif flush_attrs or new_file:
-                files[0].attrs.update(self.attrs)
+                files[0].attrs.update({k: i for k, i in self.attrs.items() if i is not None})
 
             # reset error count
             self.file_error_count = 0
@@ -522,7 +525,6 @@ class DAQDaemon(DAQDaemonParser):
             time_file_stop = datetime_stop.strftime('%Y%m%dT%H%M%S.%f')[:-3] + 'Z'
             new_file_name = self.file_name.replace(time_file_rollover_str, time_file_stop)
 
-            print(time_file_rollover_str, time_file_stop, self.file_name, new_file_name)
             # self.logger.debug('start stopping sdaq')
             self.attrs.update({'run_end': timestamp_stop, 'file_end': timestamp_stop})
             self.scheduler.stop()
