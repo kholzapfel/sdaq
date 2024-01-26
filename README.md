@@ -1,6 +1,6 @@
-## SDAQ
+# Simple Data Acquisition (SDAQ)
 
-SDAQ is a standalone module which provides a DAQ system based on hdf5-files powered by ``h5py, numpy, logging, scheduler``.
+SDAQ (Simple Data Acquisition) is a Python package which provides a DAQ system based on hdf5-files powered by ``h5py, numpy, logging, scheduler``.
 The package consists of two main classes [DAQDaemon](#daqdaemon) and [DAQJob](#daqjob).
 
 #### Table of Contents
